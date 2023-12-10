@@ -17,8 +17,11 @@ In the second step of pipelining, These 11 partial products in the previous stag
 In the Third step of pipelining, The above 5 intermediate products are added to get the final product
 
 Commands for Compiling and running the code:
+
 bsc -verilog multiplier_pipelined.bsv
+
 bsc -o sim -e mkTest mkTest.v
+
 ./sim
 
 Verification and Synthesis:
