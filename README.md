@@ -14,9 +14,7 @@ After storing the signs of operands, we convert the operands in to positive vers
 
 
 Algorithm:
-
-Now break the multiplier into 6-bit chunks. So we get a total of 11 chunks.
-
+Now break the multiplier into 6-bit chunks. So we get a total of 11 chunks.<br />
 In the first step of pipelining, Each 6 bit chunk is now multiplied with whole multiplicand to get 11 partial products.
 
 In the second step of pipelining, These 11 partial products in the previous stage, are added together to produce 5 intermediate products
