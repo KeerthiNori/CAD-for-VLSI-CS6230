@@ -30,5 +30,6 @@ Verification and Synthesis:<br />
 We checked the multiplier code with several examples. <br />
 Then we used Yosys tool for Synthesis by following command:<br />
 yosys -o output.blif -S mk_mul.v<br />
-write_verilog synth.v<br/>
 synth -top mk_mul.v</br>
+read_verilog synth.v</br>
+write_verilog synth.v<br/>
