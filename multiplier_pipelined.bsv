@@ -73,9 +73,9 @@ package multiplier_pipelined;
       Bit#(72) s7=0;
       Bit#(72) s8=0;
       
-      Bit#(72) o1=0;
-      Bit#(72) o2=0;
-      Bit#(144) o=0;
+      Bit#(72) sum1=0;
+      Bit#(72) sum2=0;
+      Bit#(144) sum=0;
       
       //shifting the required no.of bits according to the position for 8 bits of the multiplier
       s1 = (b[0]==1'b0)?72'd0:(c);
@@ -87,10 +87,10 @@ package multiplier_pipelined;
       s7 = (b[6]==1'b0)?72'd0:(c<<6);
       s8 = (b[7]==1'b0)?72'd0:(c<<7);
       
-      o1 =  s1+s2+s3+s4;
-      o2 =  s5+s6+s7+s8;
-      o= {o1,o2};
-      return o;        
+      sum1 =  s1+s2+s3+s4;
+      sum2 =  s5+s6+s7+s8;
+      sum= {sum1,sum2};
+      return sum;        
     endfunction
     
     // Stage 1 pipelining - evaluating partial products using the func_pp_gen function.
