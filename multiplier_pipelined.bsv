@@ -51,9 +51,9 @@ package multiplier_pipelined;
     
     
     Reg#(Bit#(1)) sign <- mkReg(0);
-    Reg#(Bit#(1)) sign_1 <- mkReg(0);
-    Reg#(Bit#(1)) sign_2 <- mkReg(0);
-    Reg#(Bit#(1)) sign_3 <- mkReg(0);
+    Reg#(Bit#(1)) sign1 <- mkReg(0);
+    Reg#(Bit#(1)) sign2 <- mkReg(0);
+    Reg#(Bit#(1)) sign3 <- mkReg(0);
     
     Reg#(Bool) stg1 <- mkReg (False);
     Reg#(Bool) stg2 <- mkReg (False);
@@ -105,7 +105,7 @@ package multiplier_pipelined;
       pp6<=func_pp_gen(operand1,operand2[55:48]);
       pp7<=func_pp_gen(operand1,operand2[63:56]);
       
-      sign_1 <= sign;
+      sign1 <= sign;
       stg2 <= True;
 
     endrule
@@ -118,7 +118,7 @@ package multiplier_pipelined;
       pp10 <= {26'd0,(pp4[71:0]),32'd0}+{26'd0,(pp4[143:72]),32'd0}+{18'd0,(pp5[71:0]),40'd0}+{18'd0,(pp5[143:72]),40'd0};
       pp11 <= {10'd0,(pp6[71:0]),48'd0}+{10'd0,(pp6[143:72]),48'd0}+{2'd0,(pp7[71:0]),56'd0}+{2'd0,(pp7[143:72]),56'd0};
 
-      sign_2 <= sign_1;
+      sign2 <= sign1;
       stg3 <= True;
     endrule
     
@@ -136,27 +136,27 @@ package multiplier_pipelined;
 
       result<= p1+p2+p3+p4;                    
       
-      sign_3 <= sign_2;
+      sign3 <= sign2;
       stg4 <= True;
     endrule
     
     //Making the inputs positive if they are negative and sending the positive version of input
     method Action get_inp(Bit#(`wid) inp1, Bit#(`wid) inp2) if (!stg1);
-      Bit#(1) sign1 = inp1[valueOf(`wid) - 1];
-      Bit#(1) sign2 = inp2[valueOf(`wid) - 1];
+      Bit#(1) signa = inp1[valueOf(`wid) - 1];
+      Bit#(1) signb = inp2[valueOf(`wid) - 1];
       
       Bit#(`wid) opp1 =0;
       Bit#(`wid) opp2 =0;
       
-      if ((sign1)==0) begin opp1 = inp1; end
+      if ((signa)==0) begin opp1 = inp1; end
       else begin opp1 = (~inp1)+ 64'd1; end
-      if ((sign2)==0) begin opp2 = inp2; end
+      if ((signb)==0) begin opp2 = inp2; end
       else begin opp2 = (~inp2)+ 64'd1; end
       operand1 <= opp1;
       operand2 <= opp2;
       
       //determining the sign of the final product
-      sign <= (sign2)^(sign1);
+      sign <= (signb)^(signa);
       stg1 <= True;
     
     endmethod
@@ -165,12 +165,12 @@ package multiplier_pipelined;
     method Tuple2#(Bit#(1),Bit#(TMul#(2, `wid))) get_out if(stg1 && stg4);
     
       Bit#(TMul#(2, `wid)) out=0;
-      if (sign_3==1)
+      if (sign3==1)
         out =~(result[127:0])+ 128'd1;
       else
         out = result[127:0];
       
-      return tuple2(sign_3,out);
+      return tuple2(sign3,out);
     endmethod
 
   endmodule
