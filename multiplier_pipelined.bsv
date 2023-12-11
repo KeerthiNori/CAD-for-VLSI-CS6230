@@ -123,19 +123,9 @@ package multiplier_pipelined;
     endrule
     
     //Stage 3 pipelining - Addition of intermediate products to get the final product
-    rule rl_pp_gen_stage3(stg3);            
-      Bit#(130) p1 =0;
-      Bit#(130) p2 =0;
-      Bit#(130) p3 =0;
-      Bit#(130) p4 =0;
+    rule rl_pp_gen_stage3(stg3); 
 
-      p1 = pack(pp8);
-      p2 = pack(pp9);
-      p3 = pack(pp10);
-      p4 = pack(pp11);
-
-      result<= p1+p2+p3+p4;                    
-      
+      result<= pp8+pp9+p10+p11;                    
       sign3 <= sign2;
       stg4 <= True;
     endrule
