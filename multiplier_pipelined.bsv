@@ -30,13 +30,26 @@ package multiplier_pipelined;
 
   (*synthesize*)
   module mk_mul(Ifc_mul);
+    
+    Reg#(Bit#(`XLEN)) operand1 <- mkReg(0);
+    Reg#(Bit#(`XLEN)) operand2 <- mkReg(0);
+    Reg#(Bit#(130)) result <- mkReg(0);
+    
+    Reg#(Bit#(1)) sign <- mkReg(0);
+    Reg#(Bit#(1)) sign_1 <- mkReg(0);
+    Reg#(Bit#(1)) sign_2 <- mkReg(0);
+    Reg#(Bit#(1)) sign_3 <- mkReg(0);
+    
+    Reg#(Bool) stg1 <- mkReg (False);
+    Reg#(Bool) stg2 <- mkReg (False);
+    Reg#(Bool) stg3 <- mkReg (False);
+    Reg#(Bool) stg4 <- mkReg (False);
   
     Reg#(Bit#(130)) pp0<- mkReg(0);
     Reg#(Bit#(130)) pp1 <- mkReg(0);
     Reg#(Bit#(130)) pp2 <- mkReg(0);
     Reg#(Bit#(130)) pp3 <- mkReg(0);
     Reg#(Bit#(130)) pp4 <- mkReg(0);
-    
     Reg#(Bit#(140)) pp0_1 <- mkReg(0);
     Reg#(Bit#(140)) pp1_1 <- mkReg(0);
     Reg#(Bit#(140)) pp2_1 <- mkReg(0);
@@ -49,24 +62,8 @@ package multiplier_pipelined;
     Reg#(Bit#(140)) pp9_1 <- mkReg(0);
     Reg#(Bit#(140)) pp10_1 <- mkReg(0);
     
-    Reg#(Bit#(130)) result <- mkReg(0);
-    
-    Reg#(Bit#(`XLEN)) operand1 <- mkReg(0);
-    Reg#(Bit#(`XLEN)) operand2 <- mkReg(0);
-    
-    
-    Reg#(Bit#(1)) sign <- mkReg(0);
-    Reg#(Bit#(1)) sign_1 <- mkReg(0);
-    Reg#(Bit#(1)) sign_2 <- mkReg(0);
-    Reg#(Bit#(1)) sign_3 <- mkReg(0);
-    
-    Reg#(Bool) stg1 <- mkReg (False);
-    Reg#(Bool) stg2 <- mkReg (False);
-    Reg#(Bool) stg3 <- mkReg (False);
-    Reg#(Bool) stg4 <- mkReg (False);
-
   //Function to generate the partial products for multiplication process
- 	  function Bit#(140) func_pp_gen(Bit#(64) a,Bit#(6) b);                   
+    function Bit#(140) func_pp_gen(Bit#(64) a,Bit#(6) b);                   
 
       Bit#(70) c=zeroExtend(a);
       Bit#(70) s1=0;
