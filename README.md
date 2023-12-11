@@ -14,10 +14,10 @@ So the following algorithm uses both positive operands and give positive result 
 
 
 Algorithm:<br />
-Now break the multiplier into 6-bit chunks. So we get a total of 11 chunks.<br />
-In the first step of pipelining, Each 6 bit chunk is now multiplied with whole multiplicand to get 11 partial products.<br />
-In the second step of pipelining, These 11 partial products in the previous stage, are added together to produce 5 intermediate products.<br />
-In the Third step of pipelining, The above 5 intermediate products are added to get the final product.<br />
+Now break the multiplier into 8-bit chunks. So we get a total of 8 chunks.<br />
+In the first step of pipelining, Each 8 bit chunk is now multiplied with whole multiplicand to get 8 partial products.<br />
+In the second step of pipelining, These 8 partial products in the previous stage, are added together to produce 4 intermediate products.<br />
+In the Third step of pipelining, The above 4 intermediate products are added to get the final product.<br />
 
 Output Format: 128-bit number, negative result will be shown in 2s complement form.<br />
 
