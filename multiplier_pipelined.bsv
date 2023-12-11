@@ -31,19 +31,19 @@ package multiplier_pipelined;
   (*synthesize*)
   module mk_mul(Ifc_mul);
      
-    Reg#(Bit#(144)) pp0_1 <- mkReg(0);
-    Reg#(Bit#(144)) pp1_1 <- mkReg(0);
-    Reg#(Bit#(144)) pp2_1 <- mkReg(0);
-    Reg#(Bit#(144)) pp3_1 <- mkReg(0);
-    Reg#(Bit#(144)) pp4_1 <- mkReg(0);
-    Reg#(Bit#(144)) pp5_1 <- mkReg(0);
-    Reg#(Bit#(144)) pp6_1 <- mkReg(0);
-    Reg#(Bit#(144)) pp7_1 <- mkReg(0);
+    Reg#(Bit#(144)) pp0 <- mkReg(0);
+    Reg#(Bit#(144)) pp1 <- mkReg(0);
+    Reg#(Bit#(144)) pp2 <- mkReg(0);
+    Reg#(Bit#(144)) pp3 <- mkReg(0);
+    Reg#(Bit#(144)) pp4 <- mkReg(0);
+    Reg#(Bit#(144)) pp5 <- mkReg(0);
+    Reg#(Bit#(144)) pp6 <- mkReg(0);
+    Reg#(Bit#(144)) pp7 <- mkReg(0);
   
-    Reg#(Bit#(130)) pp0<- mkReg(0);
-    Reg#(Bit#(130)) pp1 <- mkReg(0);
-    Reg#(Bit#(130)) pp2 <- mkReg(0);
-    Reg#(Bit#(130)) pp3 <- mkReg(0);
+    Reg#(Bit#(130)) pp8<- mkReg(0);
+    Reg#(Bit#(130)) pp9 <- mkReg(0);
+    Reg#(Bit#(130)) pp10 <- mkReg(0);
+    Reg#(Bit#(130)) pp11 <- mkReg(0);
     Reg#(Bit#(130)) result <- mkReg(0);
     
     Reg#(Bit#(`wid)) operand1 <- mkReg(0);
@@ -96,14 +96,14 @@ package multiplier_pipelined;
     // Stage 1 pipelining - evaluating partial products using the func_pp_gen function.
  	  rule r1_pp_gen_stage1(stg1);
       
-      pp0_1<=func_pp_gen(operand1,operand2[7:0]);
-      pp1_1<= func_pp_gen(operand1,operand2[15:8]);
-      pp2_1<=func_pp_gen(operand1,operand2[23:16]);
-      pp3_1<=func_pp_gen(operand1,operand2[31:24]);
-      pp4_1<=func_pp_gen(operand1,operand2[39:32]);
-      pp5_1<=func_pp_gen(operand1,operand2[47:40]);
-      pp6_1<=func_pp_gen(operand1,operand2[55:48]);
-      pp7_1<=func_pp_gen(operand1,operand2[63:56]);
+      pp0<=func_pp_gen(operand1,operand2[7:0]);
+      pp1<= func_pp_gen(operand1,operand2[15:8]);
+      pp2<=func_pp_gen(operand1,operand2[23:16]);
+      pp3<=func_pp_gen(operand1,operand2[31:24]);
+      pp4<=func_pp_gen(operand1,operand2[39:32]);
+      pp5<=func_pp_gen(operand1,operand2[47:40]);
+      pp6<=func_pp_gen(operand1,operand2[55:48]);
+      pp7<=func_pp_gen(operand1,operand2[63:56]);
       
       sign_1 <= sign;
       stg2 <= True;
@@ -113,10 +113,10 @@ package multiplier_pipelined;
     // stage 2 pipelining - adding the values produced in the stage 1 to form the intermediate products
     rule rl_pp_gen_stage_2(stg2);
       
-      pp0<= {58'd0,(pp0_1[71:0])}+{58'd0,pp0_1[143:72]}+{50'd0,(pp1_1[71:0]),8'd0}+{50'd0,(pp1_1[143:72]),8'd0};     
-      pp1 <= {42'd0,(pp2_1[71:0]),16'd0}+{42'd0,(pp2_1[143:72]),16'd0}+{34'd0,(pp3_1[71:0]),24'd0}+{34'd0,(pp3_1[143:72]),24'd0};  
-      pp2 <= {26'd0,(pp4_1[71:0]),32'd0}+{26'd0,(pp4_1[143:72]),32'd0}+{18'd0,(pp5_1[71:0]),40'd0}+{18'd0,(pp5_1[143:72]),40'd0};
-      pp3 <= {10'd0,(pp6_1[71:0]),48'd0}+{10'd0,(pp6_1[143:72]),48'd0}+{2'd0,(pp7_1[71:0]),56'd0}+{2'd0,(pp7_1[143:72]),56'd0};
+      pp8<= {58'd0,(pp0[71:0])}+{58'd0,pp0[143:72]}+{50'd0,(pp1[71:0]),8'd0}+{50'd0,(pp1[143:72]),8'd0};     
+      pp9 <= {42'd0,(pp2[71:0]),16'd0}+{42'd0,(pp2[143:72]),16'd0}+{34'd0,(pp3[71:0]),24'd0}+{34'd0,(pp3[143:72]),24'd0};  
+      pp10 <= {26'd0,(pp4[71:0]),32'd0}+{26'd0,(pp4[143:72]),32'd0}+{18'd0,(pp5[71:0]),40'd0}+{18'd0,(pp5[143:72]),40'd0};
+      pp11 <= {10'd0,(pp6[71:0]),48'd0}+{10'd0,(pp6[143:72]),48'd0}+{2'd0,(pp7[71:0]),56'd0}+{2'd0,(pp7[143:72]),56'd0};
 
       sign_2 <= sign_1;
       stg3 <= True;
@@ -129,10 +129,10 @@ package multiplier_pipelined;
       Bit#(130) p3 =0;
       Bit#(130) p4 =0;
 
-      p1 = pack(pp0);
-      p2 = pack(pp1);
-      p3 = pack(pp2);
-      p4 = pack(pp3);
+      p1 = pack(pp8);
+      p2 = pack(pp9);
+      p3 = pack(pp10);
+      p4 = pack(pp11);
 
       result<= p1+p2+p3+p4;                    
       
